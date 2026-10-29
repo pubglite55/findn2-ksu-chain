@@ -55,3 +55,8 @@ lkm-build/out/*
 !lkm-build/out/.gitkeep
 lkm-build/kernel/
 
+
+# compiled test binaries (sources live in test-programs/)
+/test_*
+/test-programs/*
+!/test-programs/*.c
