@@ -42,5 +42,16 @@ boot*.img
 
 # large local analysis artifacts (not part of the deliverable)
 output.elf
+output.elf.*
 *-boot.img
 *_boot.img
+*.img
+
+# Archived pre-deliverable .ko variants (kept locally in ../oppo-archive/out-history/)
+# Whitelist the two deliverables, ignore every other build artifact:
+lkm-build/out/*
+!lkm-build/out/kernelsu.ko
+!lkm-build/out/ksu_min_load.ko
+!lkm-build/out/.gitkeep
+lkm-build/kernel/
+
