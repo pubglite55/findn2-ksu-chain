@@ -1,6 +1,8 @@
 <div align="center">
 
-# oppofindN2-ghostlock
+[English](README.md) | [简体中文](README.zh-CN.md)
+
+# findn2-ksu-chain
 
 **KernelSU late-load on a locked OPPO Find N2 — full chain, self-built LKM, no unlocked bootloader.**
 
