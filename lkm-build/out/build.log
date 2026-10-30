@@ -73,16 +73,16 @@ Makefile:548: MSM_ARCH: --
   WRAP    arch/arm64/include/generated/uapi/asm/ipcbuf.h
   WRAP    arch/arm64/include/generated/uapi/asm/msgbuf.h
   WRAP    arch/arm64/include/generated/uapi/asm/poll.h
-  WRAP    arch/arm64/include/generated/uapi/asm/sembuf.h
   WRAP    arch/arm64/include/generated/uapi/asm/resource.h
-  WRAP    arch/arm64/include/generated/uapi/asm/shmbuf.h
+  WRAP    arch/arm64/include/generated/uapi/asm/sembuf.h
   WRAP    arch/arm64/include/generated/uapi/asm/siginfo.h
+  WRAP    arch/arm64/include/generated/uapi/asm/shmbuf.h
   WRAP    arch/arm64/include/generated/uapi/asm/socket.h
   WRAP    arch/arm64/include/generated/uapi/asm/sockios.h
   WRAP    arch/arm64/include/generated/uapi/asm/stat.h
   WRAP    arch/arm64/include/generated/uapi/asm/swab.h
-  WRAP    arch/arm64/include/generated/uapi/asm/termbits.h
   WRAP    arch/arm64/include/generated/uapi/asm/termios.h
+  WRAP    arch/arm64/include/generated/uapi/asm/termbits.h
   WRAP    arch/arm64/include/generated/uapi/asm/types.h
   HOSTCC  scripts/dtc/dtc.o
   HOSTCC  scripts/dtc/flattree.o
@@ -114,20 +114,20 @@ Makefile:548: MSM_ARCH: --
   WRAP    arch/arm64/include/generated/asm/serial.h
   WRAP    arch/arm64/include/generated/asm/switch_to.h
   WRAP    arch/arm64/include/generated/asm/trace_clock.h
-  HOSTCC  scripts/dtc/treesource.o
   WRAP    arch/arm64/include/generated/asm/unaligned.h
   WRAP    arch/arm64/include/generated/asm/vga.h
+  HOSTCC  scripts/dtc/treesource.o
   HOSTCC  scripts/dtc/srcpos.o
   HOSTCC  scripts/dtc/checks.o
   HOSTCC  scripts/dtc/util.o
-  UPD     include/generated/uapi/linux/version.h
   LEX     scripts/dtc/dtc-lexer.lex.c
   YACC    scripts/dtc/dtc-parser.tab.[ch]
-  UPD     include/generated/utsrelease.h
+  UPD     include/generated/uapi/linux/version.h
   HOSTCC  scripts/dtc/yamltree.o
-  HOSTCC  scripts/unifdef
+  UPD     include/generated/utsrelease.h
   HOSTCC  scripts/dtc/dtc-lexer.lex.o
   HOSTCC  scripts/dtc/dtc-parser.tab.o
+  HOSTCC  scripts/unifdef
   HOSTLD  scripts/dtc/dtc
   HOSTCC  scripts/kallsyms
   HOSTCC  scripts/genksyms/genksyms.o
@@ -147,32 +147,32 @@ Makefile:548: MSM_ARCH: --
   HDRINST usr/include/asm-generic/sockios.h
   HDRINST usr/include/asm-generic/bitsperlong.h
   HDRINST usr/include/asm-generic/poll.h
-  HDRINST usr/include/asm-generic/statfs.h
-  HDRINST usr/include/asm-generic/ucontext.h
+  HOSTCC  scripts/sorttable
   LEX     scripts/genksyms/lex.lex.c
+  HDRINST usr/include/asm-generic/statfs.h
+  HOSTCC  scripts/asn1_compiler
+  HDRINST usr/include/asm-generic/ucontext.h
   HDRINST usr/include/asm-generic/hugetlb_encode.h
   HDRINST usr/include/asm-generic/param.h
-  HOSTCC  scripts/sorttable
   HDRINST usr/include/asm-generic/termbits.h
-  HDRINST usr/include/asm-generic/unistd.h
-  HOSTCC  scripts/asn1_compiler
-  HDRINST usr/include/asm-generic/fcntl.h
   HOSTCC  scripts/genksyms/parse.tab.o
+  HDRINST usr/include/asm-generic/unistd.h
+  HDRINST usr/include/asm-generic/fcntl.h
   HDRINST usr/include/asm-generic/ioctl.h
   HDRINST usr/include/asm-generic/termios.h
   HDRINST usr/include/asm-generic/errno.h
   HDRINST usr/include/asm-generic/ioctls.h
   HDRINST usr/include/asm-generic/auxvec.h
+  HOSTCC  scripts/genksyms/lex.lex.o
   HDRINST usr/include/asm-generic/socket.h
+  HOSTCC  scripts/extract-cert
   HDRINST usr/include/asm-generic/ipcbuf.h
   HDRINST usr/include/asm-generic/mman-common.h
   HDRINST usr/include/asm-generic/bpf_perf_event.h
   HDRINST usr/include/asm-generic/swab.h
   HDRINST usr/include/asm-generic/shmbuf.h
   HDRINST usr/include/asm-generic/int-l64.h
-  HOSTCC  scripts/extract-cert
   HDRINST usr/include/asm-generic/stat.h
-  HOSTCC  scripts/genksyms/lex.lex.o
   HDRINST usr/include/asm-generic/setup.h
   HDRINST usr/include/asm-generic/signal.h
   HDRINST usr/include/asm-generic/resource.h
@@ -209,6 +209,7 @@ Makefile:548: MSM_ARCH: --
   HDRINST usr/include/linux/rfkill.h
   HDRINST usr/include/linux/fips_status.h
   HDRINST usr/include/linux/pcitest.h
+  HOSTLD  scripts/genksyms/genksyms
   HDRINST usr/include/linux/atmppp.h
   HDRINST usr/include/linux/ivtvfb.h
   HDRINST usr/include/linux/kernel-page-flags.h
@@ -217,7 +218,6 @@ Makefile:548: MSM_ARCH: --
   HDRINST usr/include/linux/ethtool.h
   HDRINST usr/include/linux/iso_fs.h
   HDRINST usr/include/linux/ultrasound.h
-  HOSTLD  scripts/genksyms/genksyms
   HDRINST usr/include/linux/isst_if.h
   HDRINST usr/include/linux/posix_types.h
   HDRINST usr/include/linux/vsockmon.h
@@ -236,10 +236,7 @@ Makefile:548: MSM_ARCH: --
   HDRINST usr/include/linux/v4l2-controls.h
   HDRINST usr/include/linux/atmdev.h
   HDRINST usr/include/linux/audit.h
-  CC      scripts/mod/empty.o
-  HOSTCC  scripts/mod/mk_elfconfig
   HDRINST usr/include/linux/ncsi.h
-  CC      scripts/mod/devicetable-offsets.s
   HDRINST usr/include/linux/chio.h
   HDRINST usr/include/linux/rxrpc.h
   HDRINST usr/include/linux/usbdevice_fs.h
@@ -250,17 +247,9 @@ Makefile:548: MSM_ARCH: --
   HDRINST usr/include/linux/ivtv.h
   HDRINST usr/include/linux/time.h
   HDRINST usr/include/linux/usbip.h
-  UPD     scripts/mod/devicetable-offsets.h
-  MKELF   scripts/mod/elfconfig.h
   HDRINST usr/include/linux/tee.h
-  HOSTCC  scripts/mod/modpost.o
-  HOSTCC  scripts/mod/sumversion.o
-  HOSTCC  scripts/mod/file2alias.o
   HDRINST usr/include/linux/fscrypt.h
   HDRINST usr/include/linux/pci_regs.h
-scripts/mod/modpost.c:849:10: warning: initializing 'char *' with an expression of type 'const char *' discards qualifiers [-Wincompatible-pointer-types-discards-qualifiers]
-                        char *here = strstr(sym, bare);
-                              ^      ~~~~~~~~~~~~~~~~~
   HDRINST usr/include/linux/ppp-ioctl.h
   HDRINST usr/include/linux/dns_resolver.h
   HDRINST usr/include/linux/sysctl.h
@@ -347,10 +336,8 @@ scripts/mod/modpost.c:849:10: warning: initializing 'char *' with an expression 
   HDRINST usr/include/linux/random.h
   HDRINST usr/include/linux/netfilter/xt_l2tp.h
   HDRINST usr/include/linux/netfilter/xt_CONNSECMARK.h
-1 warning generated.
   HDRINST usr/include/linux/netfilter/nfnetlink_cthelper.h
   HDRINST usr/include/linux/netfilter/xt_recent.h
-  HOSTLD  scripts/mod/modpost
   HDRINST usr/include/linux/netfilter/xt_multiport.h
   HDRINST usr/include/linux/netfilter/xt_TPROXY.h
   HDRINST usr/include/linux/netfilter/nfnetlink_queue.h
@@ -361,13 +348,13 @@ scripts/mod/modpost.c:849:10: warning: initializing 'char *' with an expression 
   HDRINST usr/include/linux/netfilter/xt_LOG.h
   HDRINST usr/include/linux/netfilter/xt_time.h
   HDRINST usr/include/linux/netfilter/xt_state.h
+  CC      scripts/mod/empty.o
   HDRINST usr/include/linux/netfilter/xt_nfacct.h
-  CC      kernel/bounds.s
+  HOSTCC  scripts/mod/mk_elfconfig
   HDRINST usr/include/linux/netfilter/xt_realm.h
+  CC      scripts/mod/devicetable-offsets.s
   HDRINST usr/include/linux/netfilter/nf_conntrack_tuple_common.h
   HDRINST usr/include/linux/netfilter/xt_HMARK.h
-  CALL    scripts/atomic/check-atomics.sh
-  UPD     include/generated/timeconst.h
   HDRINST usr/include/linux/netfilter/xt_CHECKSUM.h
   HDRINST usr/include/linux/netfilter/nf_conntrack_ftp.h
   HDRINST usr/include/linux/netfilter/xt_cgroup.h
@@ -376,9 +363,17 @@ scripts/mod/modpost.c:849:10: warning: initializing 'char *' with an expression 
   HDRINST usr/include/linux/netfilter/xt_RATEEST.h
   HDRINST usr/include/linux/netfilter/xt_tcpmss.h
   HDRINST usr/include/linux/netfilter/xt_IDLETIMER.h
+  MKELF   scripts/mod/elfconfig.h
+  HOSTCC  scripts/mod/modpost.o
+  HOSTCC  scripts/mod/sumversion.o
   HDRINST usr/include/linux/netfilter/xt_AUDIT.h
+  UPD     scripts/mod/devicetable-offsets.h
   HDRINST usr/include/linux/netfilter/nfnetlink_acct.h
+  HOSTCC  scripts/mod/file2alias.o
   HDRINST usr/include/linux/netfilter/xt_pkttype.h
+scripts/mod/modpost.c:849:10: warning: initializing 'char *' with an expression of type 'const char *' discards qualifiers [-Wincompatible-pointer-types-discards-qualifiers]
+                        char *here = strstr(sym, bare);
+                              ^      ~~~~~~~~~~~~~~~~~
   HDRINST usr/include/linux/netfilter/xt_connmark.h
   HDRINST usr/include/linux/netfilter/xt_CT.h
   HDRINST usr/include/linux/netfilter/xt_limit.h
@@ -391,8 +386,6 @@ scripts/mod/modpost.c:849:10: warning: initializing 'char *' with an expression 
   HDRINST usr/include/linux/netfilter/xt_LED.h
   HDRINST usr/include/linux/netfilter/xt_cluster.h
   HDRINST usr/include/linux/netfilter/xt_SYNPROXY.h
-  UPD     include/generated/bounds.h
-  CC      arch/arm64/kernel/asm-offsets.s
   HDRINST usr/include/linux/netfilter/xt_connlimit.h
   HDRINST usr/include/linux/netfilter/xt_connbytes.h
   HDRINST usr/include/linux/netfilter/nfnetlink_cttimeout.h
@@ -457,8 +450,10 @@ scripts/mod/modpost.c:849:10: warning: initializing 'char *' with an expression 
   HDRINST usr/include/linux/fanotify.h
   HDRINST usr/include/linux/poll.h
   HDRINST usr/include/linux/vhost_types.h
+1 warning generated.
   HDRINST usr/include/linux/timerfd.h
   HDRINST usr/include/linux/atm_tcp.h
+  HOSTLD  scripts/mod/modpost
   HDRINST usr/include/linux/arm_sdei.h
   HDRINST usr/include/linux/msm_kgsl.h
   HDRINST usr/include/linux/matroxfb.h
@@ -469,8 +464,11 @@ scripts/mod/modpost.c:849:10: warning: initializing 'char *' with an expression 
   HDRINST usr/include/linux/cuda.h
   HDRINST usr/include/linux/target_core_user.h
   HDRINST usr/include/linux/aspeed-p2a-ctrl.h
+  CC      kernel/bounds.s
   HDRINST usr/include/linux/nexthop.h
+  CALL    scripts/atomic/check-atomics.sh
   HDRINST usr/include/linux/cec-funcs.h
+  UPD     include/generated/timeconst.h
   HDRINST usr/include/linux/vhost.h
   HDRINST usr/include/linux/helioscom_interface.h
   HDRINST usr/include/linux/xilinx-v4l2-controls.h
@@ -486,7 +484,9 @@ scripts/mod/modpost.c:849:10: warning: initializing 'char *' with an expression 
   HDRINST usr/include/linux/virtio_console.h
   HDRINST usr/include/linux/bpf.h
   HDRINST usr/include/linux/rtnetlink.h
+  UPD     include/generated/bounds.h
   HDRINST usr/include/linux/rmnet_ipa_fd_ioctl.h
+  CC      arch/arm64/kernel/asm-offsets.s
   HDRINST usr/include/linux/oom.h
   HDRINST usr/include/linux/membarrier.h
   HDRINST usr/include/linux/edd.h
@@ -564,11 +564,9 @@ scripts/mod/modpost.c:849:10: warning: initializing 'char *' with an expression 
   HDRINST usr/include/linux/tcp.h
   HDRINST usr/include/linux/snmp.h
   HDRINST usr/include/linux/hdlcdrv.h
-  UPD     include/generated/asm-offsets.h
   HDRINST usr/include/linux/inotify.h
   HDRINST usr/include/linux/virtio_mem.h
   HDRINST usr/include/linux/nilfs2_ondisk.h
-  CALL    scripts/checksyscalls.sh
   HDRINST usr/include/linux/sched/types.h
   HDRINST usr/include/linux/net.h
   HDRINST usr/include/linux/major.h
@@ -595,13 +593,9 @@ scripts/mod/modpost.c:849:10: warning: initializing 'char *' with an expression 
   HDRINST usr/include/linux/atmbr2684.h
   HDRINST usr/include/linux/binfmts.h
   HDRINST usr/include/linux/pktcdvd.h
-  LDS     arch/arm64/kernel/vdso/vdso.lds
   HDRINST usr/include/linux/netconf.h
   HDRINST usr/include/linux/gen_stats.h
-  CC      arch/arm64/kernel/vdso/vgettimeofday.o
-  AS      arch/arm64/kernel/vdso/note.o
   HDRINST usr/include/linux/spi/spidev.h
-  AS      arch/arm64/kernel/vdso/sigreturn.o
   HDRINST usr/include/linux/tc_act/tc_sample.h
   HDRINST usr/include/linux/tc_act/tc_vlan.h
   HDRINST usr/include/linux/tc_act/tc_bpf.h
@@ -624,11 +618,9 @@ scripts/mod/modpost.c:849:10: warning: initializing 'char *' with an expression 
   HDRINST usr/include/linux/if_pppox.h
   HDRINST usr/include/linux/keyctl.h
   HDRINST usr/include/linux/icmpv6.h
-  LD      arch/arm64/kernel/vdso/vdso.so.dbg
   HDRINST usr/include/linux/errno.h
   HDRINST usr/include/linux/xdp_diag.h
   HDRINST usr/include/linux/coresight-stm.h
-  VDSOSYM include/generated/vdso-offsets.h
   HDRINST usr/include/linux/netfilter_ipv4.h
   HDRINST usr/include/linux/msm_ipa.h
   HDRINST usr/include/linux/hw_breakpoint.h
@@ -636,7 +628,9 @@ scripts/mod/modpost.c:849:10: warning: initializing 'char *' with an expression 
   HDRINST usr/include/linux/sysinfo.h
   HDRINST usr/include/linux/net_dropmon.h
   HDRINST usr/include/linux/max2175.h
+  UPD     include/generated/asm-offsets.h
   HDRINST usr/include/linux/ip_vs.h
+  CALL    scripts/checksyscalls.sh
   HDRINST usr/include/linux/dm-ioctl.h
   HDRINST usr/include/linux/phantom.h
   HDRINST usr/include/linux/firewire-constants.h
@@ -665,23 +659,23 @@ scripts/mod/modpost.c:849:10: warning: initializing 'char *' with an expression 
   HDRINST usr/include/linux/nl80211.h
   HDRINST usr/include/linux/efs_fs_sb.h
   HDRINST usr/include/linux/pmu.h
+  LDS     arch/arm64/kernel/vdso/vdso.lds
   HDRINST usr/include/linux/if_macsec.h
+  CC      arch/arm64/kernel/vdso/vgettimeofday.o
   HDRINST usr/include/linux/neighbour.h
   HDRINST usr/include/linux/scc.h
   HDRINST usr/include/linux/fsmap.h
+  AS      arch/arm64/kernel/vdso/note.o
   HDRINST usr/include/linux/if_arp.h
+  AS      arch/arm64/kernel/vdso/sigreturn.o
   HDRINST usr/include/linux/coff.h
   HDRINST usr/include/linux/nfs4_mount.h
   HDRINST usr/include/linux/netfilter_bridge/ebt_among.h
   HDRINST usr/include/linux/netfilter_bridge/ebtables.h
-  LDS     arch/arm64/kernel/vdso32/vdso.lds
   HDRINST usr/include/linux/netfilter_bridge/ebt_redirect.h
-  CC32    arch/arm64/kernel/vdso32/note.o
   HDRINST usr/include/linux/netfilter_bridge/ebt_nflog.h
   HDRINST usr/include/linux/netfilter_bridge/ebt_802_3.h
-  CC32    arch/arm64/kernel/vdso32/vgettimeofday.o
   HDRINST usr/include/linux/netfilter_bridge/ebt_stp.h
-  HOSTCC  arch/arm64/kernel/vdso32/../../../arm/vdso/vdsomunge
   HDRINST usr/include/linux/netfilter_bridge/ebt_limit.h
   HDRINST usr/include/linux/netfilter_bridge/ebt_ip.h
   HDRINST usr/include/linux/netfilter_bridge/ebt_arp.h
@@ -692,10 +686,12 @@ scripts/mod/modpost.c:849:10: warning: initializing 'char *' with an expression 
   HDRINST usr/include/linux/netfilter_bridge/ebt_mark_m.h
   HDRINST usr/include/linux/netfilter_bridge/ebt_vlan.h
   HDRINST usr/include/linux/netfilter_bridge/ebt_mark_t.h
+  LD      arch/arm64/kernel/vdso/vdso.so.dbg
   HDRINST usr/include/linux/netfilter_bridge/ebt_ip6.h
   HDRINST usr/include/linux/pidfd.h
   HDRINST usr/include/linux/aspeed-lpc-ctrl.h
   HDRINST usr/include/linux/atmmpc.h
+  VDSOSYM include/generated/vdso-offsets.h
   HDRINST usr/include/linux/auxvec.h
   HDRINST usr/include/linux/timex.h
   HDRINST usr/include/linux/dvb/dmx.h
@@ -715,12 +711,9 @@ scripts/mod/modpost.c:849:10: warning: initializing 'char *' with an expression 
   HDRINST usr/include/linux/magic.h
   HDRINST usr/include/linux/ppp-comp.h
   HDRINST usr/include/linux/pkt_cls.h
-  LD32    arch/arm64/kernel/vdso32/vdso.so.raw
   HDRINST usr/include/linux/watch_queue.h
   HDRINST usr/include/linux/kcov.h
-  MUNGE   arch/arm64/kernel/vdso32/vdso.so.dbg
   HDRINST usr/include/linux/reiserfs_xattr.h
-  VDSOSYM include/generated/vdso32-offsets.h
   HDRINST usr/include/linux/iio/types.h
   HDRINST usr/include/linux/iio/events.h
   HDRINST usr/include/linux/auto_fs.h
@@ -752,9 +745,13 @@ scripts/mod/modpost.c:849:10: warning: initializing 'char *' with an expression 
   HDRINST usr/include/linux/nbd-netlink.h
   HDRINST usr/include/linux/smc_diag.h
   HDRINST usr/include/linux/atmarp.h
+  LDS     arch/arm64/kernel/vdso32/vdso.lds
+  CC32    arch/arm64/kernel/vdso32/note.o
   HDRINST usr/include/linux/if_tun.h
+  CC32    arch/arm64/kernel/vdso32/vgettimeofday.o
   HDRINST usr/include/linux/in6.h
   HDRINST usr/include/linux/rtc.h
+  HOSTCC  arch/arm64/kernel/vdso32/../../../arm/vdso/vdsomunge
   HDRINST usr/include/linux/seccomp.h
   HDRINST usr/include/linux/msg.h
   HDRINST usr/include/linux/tipc_config.h
@@ -778,12 +775,15 @@ scripts/mod/modpost.c:849:10: warning: initializing 'char *' with an expression 
   HDRINST usr/include/linux/rmnet_data.h
   HDRINST usr/include/linux/um_timetravel.h
   HDRINST usr/include/linux/utsname.h
+  LD32    arch/arm64/kernel/vdso32/vdso.so.raw
   HDRINST usr/include/linux/batadv_packet.h
   HDRINST usr/include/linux/sync_file.h
   HDRINST usr/include/linux/i2o-dev.h
+  MUNGE   arch/arm64/kernel/vdso32/vdso.so.dbg
   HDRINST usr/include/linux/seg6_local.h
   HDRINST usr/include/linux/fd.h
   HDRINST usr/include/linux/virtio_9p.h
+  VDSOSYM include/generated/vdso32-offsets.h
   HDRINST usr/include/linux/dcbnl.h
   HDRINST usr/include/linux/hdlc.h
   HDRINST usr/include/linux/qnx4_fs.h
@@ -932,8 +932,8 @@ scripts/mod/modpost.c:849:10: warning: initializing 'char *' with an expression 
   HDRINST usr/include/linux/atmapi.h
   HDRINST usr/include/linux/raw.h
   HDRINST usr/include/linux/stat.h
-  HDRINST usr/include/linux/nfsd/cld.h
   HDRINST usr/include/linux/nfsd/export.h
+  HDRINST usr/include/linux/nfsd/cld.h
   HDRINST usr/include/linux/nfsd/debug.h
   HDRINST usr/include/linux/nfsd/stats.h
   HDRINST usr/include/linux/nfsd/nfsfh.h
@@ -1084,9 +1084,9 @@ scripts/mod/modpost.c:849:10: warning: initializing 'char *' with an expression 
   HDRINST usr/include/video/uvesafb.h
   HDRINST usr/include/xen/evtchn.h
   HDRINST usr/include/xen/gntalloc.h
-  HDRINST usr/include/xen/privcmd.h
   HDRINST usr/include/xen/gntdev.h
   HDRINST usr/include/linux/version.h
+  HDRINST usr/include/xen/privcmd.h
   HDRINST usr/include/asm/sve_context.h
   HDRINST usr/include/asm/posix_types.h
   HDRINST usr/include/asm/mman.h
@@ -1139,14 +1139,14 @@ scripts/mod/modpost.c:849:10: warning: initializing 'char *' with an expression 
   CC      fs/binfmt_script.o
   CC      fs/binfmt_elf.o
   CC      fs/compat_binfmt_elf.o
-  CC      kernel/kheaders.o
   CC      fs/mbcache.o
-  AR      kernel/built-in.a
   CC      fs/posix_acl.o
   CC      fs/coredump.o
   CC      fs/drop_caches.o
   CC      fs/dcookies.o
   AR      fs/built-in.a
+  CC      kernel/kheaders.o
+  AR      kernel/built-in.a
 !! vmlinux build failed - continuing (module will still ENOENT on load)
 !! Module.symvers still missing - modpost will not validate symbols
 == generate the SELinux generated headers (module-only builds skip them) ==
@@ -1175,8 +1175,8 @@ Makefile:548: MSM_ARCH: --
   CC      security/selinux/ss/context.o
   CC      security/selinux/vendor_hooks.o
   AR      security/selinux/built-in.a
--rw-r--r-- 1 runner runner 104050 Oct 30 05:10 security/selinux/av_permissions.h
--rw-r--r-- 1 runner runner   8413 Oct 30 05:10 security/selinux/flask.h
+-rw-r--r-- 1 runner runner 104050 Oct 30 05:18 security/selinux/av_permissions.h
+-rw-r--r-- 1 runner runner   8413 Oct 30 05:18 security/selinux/flask.h
 == replace feature/selinux_hide.c with the no-SELinux-internals stub ==
   stub in place, no SELinux-internal references in code
 == replace kernel/selinux/{sepolicy.c,rules.c} with internals-free stubs ==
@@ -1265,7 +1265,7 @@ make: *** [Makefile:2024: /home/runner/work/findn2-ksu-chain/findn2-ksu-chain/Ke
 !! minimal build failed - only the full module will ship
 == locate the artefact ==
 /home/runner/work/findn2-ksu-chain/findn2-ksu-chain/KernelSU/kernel/kernelsu.ko  8757320 bytes
--rw-r--r-- 1 runner runner 8757320 Oct 30 05:10 /home/runner/work/findn2-ksu-chain/findn2-ksu-chain/KernelSU/kernel/kernelsu.ko
+-rw-r--r-- 1 runner runner 8757320 Oct 30 05:18 /home/runner/work/findn2-ksu-chain/findn2-ksu-chain/KernelSU/kernel/kernelsu.ko
 == sanity: does the module embed the vendor kernel's build id? ==
 00000000000013cc r .Ltmp1075
 00000000000011a4 r .Ltmp304
@@ -1292,7 +1292,7 @@ tr: write error: Broken pipe
 == dfroot_boot.ko: 247104 bytes ==
 author=xiuxiu391
 license=GPL
-scmversion=gb28edc468d0f-dirty
+scmversion=gdd47cf736774-dirty
 vermagic=5.10.236-android12-9-o-g74d132f4467a SMP preempt mod_unload modversions aarch64
 -- its undefined symbols（应极少、且都在内核里存在）--
                  U __kmalloc
