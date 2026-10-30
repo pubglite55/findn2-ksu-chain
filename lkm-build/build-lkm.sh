@@ -342,3 +342,34 @@ if [ -d "$ML" ]; then
 else
   echo "  !! minload dir missing: $ML"
 fi
+# ── ★★★ dfroot 引导模块 dfroot_boot.ko（DirtyFrag 思想：装载→permissive→UMH bootstrap→自卸）──
+# 与 minload 段完全独立：minload 还在用，这段只新增，不动它的任何一行。
+# 模块做的事（详见 lkm-build/dfroot/dfroot_boot.c 头注释）：
+#   ① kprobe 自举 kallsyms_lookup_name（OTA 后地址全变，绝不硬编码）
+#   ② selinux_state.enforcing = 0（DEVELOP=y ⇒ 有 enforcing 字段，写结构体字段而非盲写 bool）
+#   ③ call_usermodehelper 拉 bootstrap_cmd（默认 /data/local/tmp/late_load.sh；CONFIG_STATIC_
+#      USERMODEHELPER_PATH="" 会把 UMH 全变 no-op，模块在 setup 后回写 sub_info->path 绕过）
+#   ④ return -E2BIG ⇒ insmod 显示失败但活已干完（无痕）
+#   进度标记 /dev/dfm0 /dev/dfm1 经同一 UMH touch（filp_open 是 NS 导出，静态引必 ENOENT）。
+echo "== build dfroot bootstrap LKM (dfroot_boot.ko) =="
+ROOT="$(dirname "$STUBS")"
+DF="$ROOT/dfroot"
+if [ -d "$DF" ]; then
+  if make -j"$(nproc)" -C "$DF" KDIR="$KSRC" > /tmp/dfroot.log 2>&1; then
+    if [ -f "$DF/dfroot_boot.ko" ]; then
+      cp -f "$DF/dfroot_boot.ko" "$ROOT/out/dfroot_boot.ko"
+      echo "== dfroot_boot.ko: $(stat -c %s "$ROOT/out/dfroot_boot.ko") bytes =="
+      tr -c '[:print:]' '\n' < "$ROOT/out/dfroot_boot.ko" | grep -E '^(vermagic|scmversion|license|author)=' || true
+      echo "-- its undefined symbols（应极少、且都在内核里存在）--"
+      llvm-nm -u "$ROOT/out/dfroot_boot.ko" 2>/dev/null | head -25 || true
+      NUND=$(llvm-nm -u "$ROOT/out/dfroot_boot.ko" 2>/dev/null | wc -l)
+      echo "-- undefined symbol count: $NUND --"
+    else
+      echo "  !! dfroot_boot.ko not produced"; tail -30 /tmp/dfroot.log
+    fi
+  else
+    echo "  !! dfroot build failed - tail:"; tail -40 /tmp/dfroot.log
+  fi
+else
+  echo "  !! dfroot dir missing: $DF"
+fi
