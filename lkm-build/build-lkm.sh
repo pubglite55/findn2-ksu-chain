@@ -73,12 +73,16 @@ echo "== modules_prepare =="
 # 走 try_to_force_load() 会【恒定】返回 ENOEXEC —— flags=3 这条路在本机是死的。
 # 因此：把 LOCALVERSION 钉死 + 清掉 setlocalversion 的 git 尾巴，然后用 flags=0 装载。
 VO="${VERMAGIC_TARGET:-5.10.246-android12-9-o-g931a7e2ba585}"
+# UTS_RELEASE = SUBLEVEL.. + LOCALVERSION: bump upstream Makefile SUBLEVEL 236→246 so the
+# version-number segment matches the OTA kernel; LOCALVERSION then only supplies the suffix.
+LV="${LV}"
+sed -i 's|^SUBLEVEL = .*|SUBLEVEL = 246|' Makefile
 if grep -q '^CONFIG_LOCALVERSION=' .config 2>/dev/null; then
-  sed -i "s|^CONFIG_LOCALVERSION=.*|CONFIG_LOCALVERSION=\"${VO#5.10.246}\"|" .config
+  sed -i "s|^CONFIG_LOCALVERSION=.*|CONFIG_LOCALVERSION=\"${LV}\"|" .config
 elif grep -q '^# CONFIG_LOCALVERSION is not set' .config 2>/dev/null; then
-  sed -i "s|^# CONFIG_LOCALVERSION is not set|CONFIG_LOCALVERSION=\"${VO#5.10.246}\"|" .config
+  sed -i "s|^# CONFIG_LOCALVERSION is not set|CONFIG_LOCALVERSION=\"${LV}\"|" .config
 else
-  echo "CONFIG_LOCALVERSION=\"${VO#5.10.236}\"" >> .config
+  echo "CONFIG_LOCALVERSION=\"${LV}\"" >> .config
 fi
 rm -f .scmversion && touch .scmversion     # 让 scripts/setlocalversion 输出空 ⇒ UTS_RELEASE 不含 git hash
 echo "== vermagic 目标: ${VO} SMP preempt mod_unload modversions aarch64"
