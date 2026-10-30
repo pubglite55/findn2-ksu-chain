@@ -96,10 +96,21 @@ jobs:
 
       - name: Fetch AOSP clang r416183b (the 5.10-CFI-era compiler, Linux native)
         run: |
-          curl -fL --retry 5 --retry-delay 5 -o clang.tar.gz \
-            "https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86/+archive/refs/tags/android-12.0.0_r1/clang-r416183b.tar.gz"
-          mkdir -p clang && tar -xzf clang.tar.gz -C clang
-          ./clang/bin/clang --version | head -2
+          # googlesource occasionally truncates mid-transfer (CI run 41003565371:
+          # gzip: unexpected EOF @203MB). Retry whole download until tar extracts clean.
+          for att in 1 2 3 4 5; do
+            echo "== clang fetch attempt $att =="
+            rm -f clang.tar.gz
+            curl -fL --retry 3 --retry-delay 5 --max-time 900 -o clang.tar.gz \
+              "https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86/+archive/refs/tags/android-12.0.0_r1/clang-r416183b.tar.gz" || { echo "curl failed"; sleep 15; continue; }
+            if mkdir -p clang && tar -xzf clang.tar.gz -C clang; then
+              echo "extract OK"
+              ./clang/bin/clang --version | head -2
+              exit 0
+            fi
+            echo "tar failed (truncated archive?)"; sleep 15
+          done
+          echo "clang fetch failed after 5 attempts"; exit 1
 
       - name: Fetch KernelSU source
         run: |
