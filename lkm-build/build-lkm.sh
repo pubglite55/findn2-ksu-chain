@@ -75,7 +75,7 @@ echo "== modules_prepare =="
 VO="${VERMAGIC_TARGET:-5.10.246-android12-9-o-g931a7e2ba585}"
 # UTS_RELEASE = SUBLEVEL.. + LOCALVERSION: bump upstream Makefile SUBLEVEL 236→246 so the
 # version-number segment matches the OTA kernel; LOCALVERSION then only supplies the suffix.
-LV="${LV}"
+LV="${VO#5.10.246}"
 sed -i 's|^SUBLEVEL = .*|SUBLEVEL = 246|' Makefile
 if grep -q '^CONFIG_LOCALVERSION=' .config 2>/dev/null; then
   sed -i "s|^CONFIG_LOCALVERSION=.*|CONFIG_LOCALVERSION=\"${LV}\"|" .config
