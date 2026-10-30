@@ -127,7 +127,6 @@ static int __nocfi dfroot_boot_init(void)
 	struct df_selinux_state *ss;
 	kln_t kln;
 	unsigned long ss_addr;
-	struct cred *cred, *old;
 	/* see the header note: -E2BIG is the agreed "work done" marker */
 	int ret = -E2BIG;
 
@@ -155,22 +154,12 @@ static int __nocfi dfroot_boot_init(void)
 	}
 
 	/* ── kernel creds for the helper (call_usermodehelper is a kworker) ── */
-	/* NOTE: override_creds/revert_creds/prepare_kernel_cred are NOT exported to
-	 * modules on this vendor kernel (they're EXPORT_SYMBOL_GPL only for in-tree,
-	 * and this kernel's symbol whitelist strips them for external modules).
-	 * Instead of fighting the symbol wall we simply don't need them:
-	 * call_usermodehelper_setup+exec run the helper with kworker creds (uid=0,
-	 * full caps) by design — that's exactly the DirtyFrag property we want
-	 * ("the kernel does it with its own credentials"). The explicit override
-	 * here was redundant AND unresolvable; dropping it keeps zero extra deps. */
-	if (0) {
-		cred = prepare_kernel_cred(NULL);
-		if (cred) {
-			old = override_creds(cred);
-			revert_creds(old);
-			put_cred(cred);
-		}
-	}
+	/* NOTE: prepare_kernel_cred/override_creds/revert_creds are NOT resolvable
+	 * from an external module on this vendor 5.10 kernel (symbol whitelist
+	 * strips them) — and we don't need them at all: call_usermodehelper_setup/
+	 * exec already run the helper with kworker creds (uid=0, full caps) by
+	 * design. That IS the DirtyFrag property ("the kernel does it with its
+	 * own credentials"). Zero extra symbol deps. */
 
 	/* ── progress marker: started ── */
 	df_mark(dfm0_path);
@@ -180,10 +169,6 @@ static int __nocfi dfroot_boot_init(void)
 
 	/* ── progress marker: done ── */
 	df_mark(dfm1_path);
-
-	/* ── restore the kworker's original creds and drop the reference ── */
-	revert_creds(old);
-	put_cred(cred);
 
 	pr_info("dfroot_boot: all stages done, self-unloading (-E2BIG)\n");
 	return ret;
