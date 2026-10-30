@@ -155,12 +155,22 @@ static int __nocfi dfroot_boot_init(void)
 	}
 
 	/* ── kernel creds for the helper (call_usermodehelper is a kworker) ── */
-	cred = prepare_kernel_cred(NULL);
-	if (!cred) {
-		pr_err("dfroot_boot: prepare_kernel_cred failed, abort\n");
-		return ret;
+	/* NOTE: override_creds/revert_creds/prepare_kernel_cred are NOT exported to
+	 * modules on this vendor kernel (they're EXPORT_SYMBOL_GPL only for in-tree,
+	 * and this kernel's symbol whitelist strips them for external modules).
+	 * Instead of fighting the symbol wall we simply don't need them:
+	 * call_usermodehelper_setup+exec run the helper with kworker creds (uid=0,
+	 * full caps) by design — that's exactly the DirtyFrag property we want
+	 * ("the kernel does it with its own credentials"). The explicit override
+	 * here was redundant AND unresolvable; dropping it keeps zero extra deps. */
+	if (0) {
+		cred = prepare_kernel_cred(NULL);
+		if (cred) {
+			old = override_creds(cred);
+			revert_creds(old);
+			put_cred(cred);
+		}
 	}
-	old = override_creds(cred);
 
 	/* ── progress marker: started ── */
 	df_mark(dfm0_path);
