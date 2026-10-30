@@ -72,11 +72,11 @@ echo "== modules_prepare =="
 # 而本内核没有 CONFIG_MODULE_FORCE_LOAD，所以 finit_module(flags=3/IGNORE_VERMAGIC)
 # 走 try_to_force_load() 会【恒定】返回 ENOEXEC —— flags=3 这条路在本机是死的。
 # 因此：把 LOCALVERSION 钉死 + 清掉 setlocalversion 的 git 尾巴，然后用 flags=0 装载。
-VO="${VERMAGIC_TARGET:-5.10.236-android12-9-o-g74d132f4467a}"
+VO="${VERMAGIC_TARGET:-5.10.246-android12-9-o-g931a7e2ba585}"
 if grep -q '^CONFIG_LOCALVERSION=' .config 2>/dev/null; then
-  sed -i "s|^CONFIG_LOCALVERSION=.*|CONFIG_LOCALVERSION=\"${VO#5.10.236}\"|" .config
+  sed -i "s|^CONFIG_LOCALVERSION=.*|CONFIG_LOCALVERSION=\"${VO#5.10.246}\"|" .config
 elif grep -q '^# CONFIG_LOCALVERSION is not set' .config 2>/dev/null; then
-  sed -i "s|^# CONFIG_LOCALVERSION is not set|CONFIG_LOCALVERSION=\"${VO#5.10.236}\"|" .config
+  sed -i "s|^# CONFIG_LOCALVERSION is not set|CONFIG_LOCALVERSION=\"${VO#5.10.246}\"|" .config
 else
   echo "CONFIG_LOCALVERSION=\"${VO#5.10.236}\"" >> .config
 fi
@@ -91,7 +91,7 @@ make -j"$(nproc)" ARCH=arm64 LLVM=1 LLVM_IAS=1 CROSS_COMPILE=aarch64-linux-gnu- 
 # 而我的模块出厂带 .modinfo scmversion=g932014ab5b2c-dirty ✗（我的源码树 git 尾巴 + -dirty）
 # 设备内核 CONFIG_MODULE_SCMVERSION=y ⇒ 装载时比对 SCM 版本 ⇒ 不一致即 -ENOENT。
 # 修法：在编模块前把 include/config/scmversion 钉成内核那个值（setlocalversion 会读它）。
-SCM_VER="${SCM_VER:-g74d132f4467a}"
+SCM_VER="${SCM_VER:-g931a7e2ba585}"
 mkdir -p include/config
 printf '%s' "$SCM_VER" > include/config/scmversion
 echo "== scmversion pinned -> $(cat include/config/scmversion)（必须等于设备 uname -r 的 g 尾巴）"
